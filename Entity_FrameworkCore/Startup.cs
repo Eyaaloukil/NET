@@ -26,8 +26,15 @@ namespace Entity_FrameworkCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("EmployeeDBConnection")));
-            services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
+           services.AddDbContextPool<AppDbContext>(
+                dbContextOptions => dbContextOptions
+                    .UseMySql(
+                        "server=localhost;user=root;password=;database=ef",
+
+                        new MySqlServerVersion(new Version(8, 0, 21))
+            ));
+                        services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
